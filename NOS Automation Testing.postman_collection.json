@@ -655,6 +655,162 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Load",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Definindo o esquema JSON esperado\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"id\": { \"type\": \"number\" },\r",
+									"        \"user_id\": { \"type\": \"number\" },\r",
+									"        \"title\": { \"type\": \"string\" },\r",
+									"        \"due_on\": { \"type\": \"string\", \"format\": \"date-time\" },\r",
+									"        \"status\": { \"type\": \"string\" }\r",
+									"    },\r",
+									"    \"required\": [\"id\", \"user_id\", \"title\", \"due_on\", \"status\"]\r",
+									"};\r",
+									"\r",
+									"// Importando a biblioteca Ajv para validação do esquema\r",
+									"\r",
+									"const Ajv = require('ajv');\r",
+									"const ajv = new Ajv();\r",
+									"const validate = ajv.compile(schema);\r",
+									"\r",
+									"// Obtendo a resposta da API\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Teste para validar o esquema JSON de todos os itens na resposta\r",
+									"\r",
+									"pm.test(\"Schema is valid for all items\", () => {\r",
+									"    \r",
+									"    // Define uma variável para rastrear se todos os itens são válidos\r",
+									"\r",
+									"    let allValid = true;\r",
+									"    \r",
+									"    // Loop\r",
+									"\r",
+									"    for (let i = 0; i < response.length; i++) {\r",
+									"            \r",
+									"        // Valida o item atual em relação ao esquema\r",
+									"\r",
+									"        const valid = validate(response[i]);\r",
+									"        if (!valid) {\r",
+									"            \r",
+									"            // Se tiver erros de validação, registra no console\r",
+									"\r",
+									"            console.log(`Validation errors in item ${i}:`, validate.errors);\r",
+									"            allValid = false;\r",
+									"        }\r",
+									"    }\r",
+									"\r",
+									"    // Assertiva para garantir que todos os itens sejam válidos\r",
+									"    \r",
+									"    pm.expect(allValid).to.be.true; \r",
+									"\r",
+									"});\r",
+									"\r",
+									"\r",
+									"// Extrai o ID da resposta JSON e define-o como uma variável de ambiente no Postman.\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"response_id\", jsonData.id);\r",
+									"\r",
+									"// Verificando se o ID é um número inteiro maior que 0\r",
+									"\r",
+									"pm.test(\"ID inteiro\", function () {\r",
+									"    pm.expect(pm.response.json().id).to.be.a(\"number\");\r",
+									"    pm.expect(pm.response.json().id).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// Verificando se o User ID é um número inteiro maior que 0\r",
+									"\r",
+									"pm.test(\"User ID inteiro\", function () {\r",
+									"    pm.expect(pm.response.json().user_id).to.be.a(\"number\");\r",
+									"    pm.expect(pm.response.json().user_id).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"// Verificando se o título é uma string não vazia\r",
+									"\r",
+									"pm.test(\"Title e string\", function () {\r",
+									"    pm.expect(pm.response.json().title).to.be.a(\"string\");\r",
+									"    pm.expect(pm.response.json().title).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// Verificando se o campo due_on é uma string não vazia\r",
+									"\r",
+									"pm.test(\"Due_on e string\", function () {\r",
+									"    pm.expect(pm.response.json().due_on).to.be.a(\"string\");\r",
+									"    pm.expect(pm.response.json().due_on).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"// Verificar se o status é uma string e está dentro dos valores esperados\r",
+									"\r",
+									"pm.test(\"Status e string especifica\", function () {\r",
+									"    pm.expect(pm.response.json().status).to.be.a(\"string\");\r",
+									"    pm.expect(pm.response.json().status).to.be.oneOf([\"pending\", \"completed\", \"cancelled\"]);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true,
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1309193fc1e756e0f04543b7cba062a26eb750d29b93b2ca47c160949c23d45f",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"user_id\": \"6913523\",\r\n\t\"title\": \"Ms.\",\r\n\t\"user\": \"NOSAutomationTesting@NOS.AutomationTesting\",\r\n\t\"status\": \"pending\",\r\n\t\"due_on\": \"{{$isoTimestamp}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}",
+							"host": [
+								"{{baseUrl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Ramp-up 5 user to 20 user 10 minutes."
 		}
 	],
 	"auth": {
