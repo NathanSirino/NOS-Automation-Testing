@@ -1,55 +1,63 @@
-NOS Automation Testing
+# NOS Automation Testing
+
 Este repositório contém o projeto de testes automatizados utilizando o Postman para validar as APIs do sistema NOS. Ele inclui coleções e scripts que realizam diversas verificações, como a validação do esquema JSON, verificação do status da resposta e testes de conteúdo.
 
-Procedimento de Setup e Execução do Projeto
-Setup do Ambiente Postman
-Instale o Postman:
+## Procedimento de Setup e Execução do Projeto
 
-Faça o download e a instalação do Postman a partir do site oficial.
-Importe a Coleção:
+### Setup do Ambiente Postman
 
-Importe a coleção fornecida (NOS Automation Testing.postman_collection.json) no Postman.
-Para importar, abra o Postman e navegue até File > Import e selecione o arquivo JSON da coleção.
-Configure as Variáveis de Ambiente:
+1. **Instale o Postman:**
+   - Faça o download e a instalação do Postman a partir do [site oficial](https://www.postman.com/downloads/).
 
-No Postman, configure as variáveis de ambiente necessárias, como baseUrl e token.
-As variáveis podem ser configuradas acessando a opção Manage Environments e adicionando os valores no ambiente correspondente.
-Por exemplo, configure a variável baseUrl com o valor https://gorest.co.in/.
-Execução dos Testes
-Selecione a Coleção:
+2. **Importe a Coleção:**
+   - Importe a coleção fornecida (`NOS Automation Testing.postman_collection.json`) no Postman.
+   - Para importar, abra o Postman e navegue até `File` > `Import` e selecione o arquivo JSON da coleção.
 
-No Postman, selecione a coleção importada (NOS Automation Testing).
-Execute os Testes:
+3. **Configure as Variáveis de Ambiente:**
+   - No Postman, configure as variáveis de ambiente necessárias, como `baseUrl` e `token`.
+   - As variáveis podem ser configuradas acessando a opção `Manage Environments` e adicionando os valores no ambiente correspondente.
+   - Por exemplo, configure a variável `baseUrl` com o valor `https://gorest.co.in/`.
 
-Clique em Run para executar todos os testes da coleção.
-A execução pode ser feita individualmente em cada requisição ou em lote utilizando o Collection Runner.
-Verifique os Resultados:
+### Execução dos Testes
 
-Após a execução, verifique os resultados dos testes na aba de execução.
-Os resultados mostrarão se os testes passaram ou falharam, juntamente com detalhes das validações realizadas.
-Estrutura dos Testes
+1. **Selecione a Coleção:**
+   - No Postman, selecione a coleção importada (`NOS Automation Testing`).
+
+2. **Execute os Testes:**
+   - Clique em `Run` para executar todos os testes da coleção.
+   - A execução pode ser feita individualmente em cada requisição ou em lote utilizando o `Collection Runner`.
+
+3. **Verifique os Resultados:**
+   - Após a execução, verifique os resultados dos testes na aba de execução.
+   - Os resultados mostrarão se os testes passaram ou falharam, juntamente com detalhes das validações realizadas.
+
+### Estrutura dos Testes
+
 A coleção inclui os seguintes tipos de testes:
 
-Validação do Esquema JSON:
+1. **Validação do Esquema JSON:**
+   - Valida se a resposta da API corresponde ao esquema JSON esperado.
 
-Valida se a resposta da API corresponde ao esquema JSON esperado.
-Verificação do Status da Resposta:
+2. **Verificação do Status da Resposta:**
+   - Verifica se o código de status HTTP das respostas é conforme esperado (e.g., 200, 201, 204).
 
-Verifica se o código de status HTTP das respostas é conforme esperado (e.g., 200, 201, 204).
-Verificação de Conteúdo:
+3. **Verificação de Conteúdo:**
+   - Verifica se os valores específicos na resposta da API atendem aos critérios definidos, como tipos de dados e valores específicos.
 
-Verifica se os valores específicos na resposta da API atendem aos critérios definidos, como tipos de dados e valores específicos.
-Exemplo de Configuração de Variáveis no Postman
-json
-Copy code
+### Exemplo de Configuração de Variáveis no Postman
+
+```json
 {
   "baseUrl": "https://gorest.co.in/",
   "token": "seu_token_aqui"
 }
-Exemplo de Execução de um Teste
-Teste de Validação do Esquema JSON:
-javascript
-Copy code
+```
+
+### Exemplo de Execução de um Teste
+
+- **Teste de Validação do Esquema JSON:**
+
+```javascript
 pm.test("Schema is valid for all items", () => {
     let allValid = true;
     for (let i = 0; i < response.length; i++) {
@@ -61,12 +69,18 @@ pm.test("Schema is valid for all items", () => {
     }
     pm.expect(allValid).to.be.true; 
 });
-Teste de Verificação de Status:
-javascript
-Copy code
+```
+
+- **Teste de Verificação de Status:**
+
+```javascript
 pm.test("Status code is 201", function() {
     pm.response.to.have.status(201);
 });
-Conclusão
+```
+
+## Conclusão
+
 Com os passos acima, você estará pronto para configurar e executar os testes automatizados utilizando o Postman para o projeto NOS Automation Testing. Certifique-se de atualizar as variáveis de ambiente conforme necessário e verificar os resultados detalhadamente após cada execução de teste.
 
+---
